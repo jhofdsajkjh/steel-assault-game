@@ -9,15 +9,32 @@
 <body>
   <main class="shell">
     <section class="hud-card intro">
-      <p class="eyebrow">Canvas Arcade</p>
+      <p class="eyebrow">Operation Steel Assault</p>
       <h1>Steel Assault</h1>
       <p class="lead">
-        Drive your tank, protect the base, and survive wave after wave of hostile armor.
+        Hold the line with your command tank, hunt supply drops, and survive elite boss waves in a neon war zone.
       </p>
-      <div class="controls">
+
+      <div class="control-grid">
         <span><strong>Move</strong> WASD / Arrows</span>
         <span><strong>Fire</strong> Space</span>
+        <span><strong>Pause</strong> P</span>
         <span><strong>Restart</strong> R</span>
+        <span><strong>Launch</strong> Enter</span>
+      </div>
+
+      <div class="button-row">
+        <button id="startButton" class="action-button action-primary" type="button">Start Mission</button>
+        <button id="restartButton" class="action-button" type="button">Reset Run</button>
+      </div>
+
+      <div class="briefing">
+        <p class="briefing-title">Field Notes</p>
+        <ul>
+          <li>Orange tanks drop pressure fast but arrive in numbers.</li>
+          <li>Supply crates can grant repairs, shields, or rapid fire.</li>
+          <li>Every third wave summons a siege boss with heavy armor.</li>
+        </ul>
       </div>
     </section>
 
@@ -40,6 +57,19 @@
           <span class="label">Wave</span>
           <strong id="wave">1</strong>
         </div>
+        <div>
+          <span class="label">Armor</span>
+          <strong id="armor">100</strong>
+        </div>
+        <div>
+          <span class="label">Weapon</span>
+          <strong id="weapon">Standard</strong>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <span class="label">Mission Feed</span>
+        <p id="eventLog">Press Start Mission or hit Enter to deploy.</p>
       </div>
     </section>
   </main>

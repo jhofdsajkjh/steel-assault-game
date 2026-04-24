@@ -1,14 +1,15 @@
 :root {
-  --bg-top: #09111f;
-  --bg-bottom: #1e2f2c;
-  --panel: rgba(8, 15, 25, 0.82);
+  --bg-top: #08101a;
+  --bg-bottom: #20342b;
+  --panel: rgba(9, 18, 28, 0.84);
   --panel-border: rgba(255, 255, 255, 0.12);
-  --accent: #f7b733;
-  --accent-soft: rgba(247, 183, 51, 0.24);
-  --text: #f2f3ef;
-  --muted: #a5b0af;
-  --danger: #ff6b57;
+  --accent: #f5b93a;
+  --accent-strong: #ff7c43;
+  --accent-soft: rgba(245, 185, 58, 0.2);
+  --text: #f6f4ee;
+  --muted: #9daba8;
   --success: #6bf0b6;
+  --danger: #ff6b57;
 }
 
 * {
@@ -18,10 +19,11 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  font-family: "Microsoft YaHei UI", "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top, rgba(247, 183, 51, 0.14), transparent 28%),
+    radial-gradient(circle at top right, rgba(255, 124, 67, 0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(88, 181, 255, 0.14), transparent 28%),
     linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
 }
 
@@ -29,33 +31,32 @@ body::before,
 body::after {
   content: "";
   position: fixed;
-  inset: auto;
-  width: 32vmax;
-  height: 32vmax;
+  width: 28vmax;
+  height: 28vmax;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.2;
+  filter: blur(110px);
+  opacity: 0.16;
   pointer-events: none;
 }
 
 body::before {
-  top: -8rem;
-  right: -4rem;
-  background: #f25f5c;
+  top: -10rem;
+  right: -8rem;
+  background: #df5a4b;
 }
 
 body::after {
-  bottom: -10rem;
-  left: -6rem;
-  background: #247ba0;
+  bottom: -12rem;
+  left: -8rem;
+  background: #3ea6ff;
 }
 
 .shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1220px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 28px 0 36px;
+  padding: 26px 0 36px;
   display: grid;
-  grid-template-columns: minmax(260px, 320px) 1fr;
+  grid-template-columns: minmax(280px, 340px) 1fr;
   gap: 20px;
   align-items: start;
 }
@@ -65,8 +66,8 @@ body::after {
   background: var(--panel);
   border: 1px solid var(--panel-border);
   border-radius: 24px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.32);
 }
 
 .hud-card {
@@ -81,15 +82,15 @@ h1 {
 .eyebrow {
   margin: 0 0 8px;
   color: var(--accent);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.3rem);
-  line-height: 0.95;
+  font-size: clamp(2.2rem, 4.6vw, 3.5rem);
+  line-height: 0.92;
 }
 
 .lead {
@@ -98,22 +99,79 @@ h1 {
   line-height: 1.7;
 }
 
-.controls {
-  margin-top: 24px;
+.control-grid {
+  margin-top: 22px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
-.controls span {
-  padding: 12px 14px;
-  border-radius: 16px;
+.control-grid span,
+.event-card,
+.briefing {
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.controls strong {
+.control-grid span {
+  padding: 12px 14px;
+}
+
+.control-grid strong {
   color: var(--accent);
   margin-right: 10px;
+}
+
+.button-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.action-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #17120d;
+  font-weight: 700;
+  border-color: transparent;
+}
+
+.briefing {
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.briefing-title {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-family: Consolas, "Liberation Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.88rem;
+}
+
+.briefing ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .playfield-card {
@@ -122,21 +180,24 @@ h1 {
 
 canvas {
   width: 100%;
-  max-width: 100%;
   display: block;
   border-radius: 18px;
-  background: #11181f;
+  background: #10171f;
 }
 
 .status-bar {
   margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
 }
 
-.status-bar > div {
+.status-bar > div,
+.event-card {
   padding: 12px 14px;
+}
+
+.status-bar > div {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -145,26 +206,41 @@ canvas {
 .label {
   display: block;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 .status-bar strong {
   display: block;
   margin-top: 4px;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-family: Consolas, "Liberation Mono", monospace;
 }
 
-@media (max-width: 980px) {
+.event-card {
+  margin-top: 14px;
+}
+
+.event-card p {
+  margin: 8px 0 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 1040px) {
   .shell {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 760px) {
+  .status-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
   .shell {
-    width: min(100% - 18px, 1180px);
-    padding-top: 16px;
+    width: min(100% - 18px, 1220px);
+    padding-top: 14px;
   }
 
   .hud-card,
