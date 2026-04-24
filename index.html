@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,67 +9,67 @@
 <body>
   <main class="shell">
     <section class="hud-card intro">
-      <p class="eyebrow">Operation Steel Assault</p>
+      <p class="eyebrow">钢铁突击行动</p>
       <h1>Steel Assault</h1>
       <p class="lead">
-        Hold the line with your command tank, hunt supply drops, and survive elite boss waves in a neon war zone.
+        驾驶你的指挥坦克守住防线，争夺补给掉落，在霓虹战区中顶住精英 Boss 波次。
       </p>
 
       <div class="control-grid">
-        <span><strong>Move</strong> WASD / Arrows</span>
-        <span><strong>Fire</strong> Space</span>
-        <span><strong>Pause</strong> P</span>
-        <span><strong>Restart</strong> R</span>
-        <span><strong>Launch</strong> Enter</span>
+        <span><strong>移动</strong> WASD / 方向键</span>
+        <span><strong>开火</strong> 空格</span>
+        <span><strong>暂停</strong> P</span>
+        <span><strong>重开</strong> R</span>
+        <span><strong>出击</strong> Enter</span>
       </div>
 
       <div class="button-row">
-        <button id="startButton" class="action-button action-primary" type="button">Start Mission</button>
-        <button id="restartButton" class="action-button" type="button">Reset Run</button>
+        <button id="startButton" class="action-button action-primary" type="button">开始任务</button>
+        <button id="restartButton" class="action-button" type="button">重新挑战</button>
       </div>
 
       <div class="briefing">
-        <p class="briefing-title">Field Notes</p>
+        <p class="briefing-title">战场情报</p>
         <ul>
-          <li>Orange tanks drop pressure fast but arrive in numbers.</li>
-          <li>Supply crates can grant repairs, shields, or rapid fire.</li>
-          <li>Every third wave summons a siege boss with heavy armor.</li>
+          <li>橙色敌军坦克数量多、压制快，需要持续拉扯走位。</li>
+          <li>补给箱可能提供修复、护盾或高速连发效果。</li>
+          <li>每第 3 波都会出现一辆重装围攻 Boss。</li>
         </ul>
       </div>
     </section>
 
     <section class="playfield-card">
-      <canvas id="game" width="832" height="576" aria-label="Tank battle game canvas"></canvas>
+      <canvas id="game" width="832" height="576" aria-label="坦克大战游戏画布"></canvas>
       <div class="status-bar">
         <div>
-          <span class="label">Lives</span>
+          <span class="label">生命</span>
           <strong id="lives">3</strong>
         </div>
         <div>
-          <span class="label">Score</span>
+          <span class="label">得分</span>
           <strong id="score">0</strong>
         </div>
         <div>
-          <span class="label">Enemies</span>
+          <span class="label">敌军</span>
           <strong id="enemies">0</strong>
         </div>
         <div>
-          <span class="label">Wave</span>
+          <span class="label">波次</span>
           <strong id="wave">1</strong>
         </div>
         <div>
-          <span class="label">Armor</span>
+          <span class="label">装甲</span>
           <strong id="armor">100</strong>
         </div>
         <div>
-          <span class="label">Weapon</span>
-          <strong id="weapon">Standard</strong>
+          <span class="label">武装</span>
+          <strong id="weapon">标准火力</strong>
         </div>
       </div>
 
       <div class="event-card">
-        <span class="label">Mission Feed</span>
-        <p id="eventLog">Press Start Mission or hit Enter to deploy.</p>
+        <span class="label">战场播报</span>
+        <p id="eventLog">点击“开始任务”或按 Enter 立即出击。</p>
       </div>
     </section>
   </main>

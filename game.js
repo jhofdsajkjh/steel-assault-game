@@ -23,6 +23,10 @@ const BULLET_SPEED = 380;
 const PLAYER_FIRE_DELAY = 280;
 const RAPID_FIRE_DELAY = 140;
 const ENEMY_FIRE_DELAY = 860;
+const PLAYER_SPAWN = {
+  x: canvas.width / 2 - 13,
+  y: canvas.height - 96,
+};
 
 const keys = new Set();
 
@@ -61,9 +65,9 @@ const pickupColors = {
 };
 
 const pickupLabels = {
-  shield: "Shield",
-  rapid: "Rapid",
-  repair: "Repair",
+  shield: "护盾",
+  rapid: "速射",
+  repair: "修复",
 };
 
 const enemySpawns = [
@@ -194,7 +198,7 @@ const game = {
   bossWave: false,
   state: "menu",
   message: "",
-  eventMessage: "Press Start Mission or hit Enter to deploy.",
+  eventMessage: "点击“开始任务”或按 Enter 立即出击。",
   lastTime: 0,
   pausePulse: 0,
   runStarted: false,
@@ -203,15 +207,15 @@ const game = {
 
 function playerWeaponLabel() {
   if (game.player.shieldTimer > 0 && game.player.rapidTimer > 0) {
-    return "Shield + Rapid";
+    return "护盾 + 速射";
   }
   if (game.player.shieldTimer > 0) {
-    return "Shielded";
+    return "护盾强化";
   }
   if (game.player.rapidTimer > 0) {
-    return "Rapid Fire";
+    return "高速连发";
   }
-  return "Standard";
+  return "标准火力";
 }
 
 function setEventLog(message) {
@@ -222,8 +226,8 @@ function setEventLog(message) {
 function buildPlayer() {
   return {
     ...makeTank({
-      x: canvas.width / 2 - 13,
-      y: canvas.height - 78,
+      x: PLAYER_SPAWN.x,
+      y: PLAYER_SPAWN.y,
       color: "#79f0d9",
       speed: PLAYER_SPEED,
       controls: "player",
@@ -269,7 +273,7 @@ function beginWave(wave, preserveScore, preserveLives) {
 
   game.state = "playing";
   game.message = "";
-  setEventLog(game.bossWave ? "Boss wave inbound. Brace for the siege tank." : `Wave ${wave} started. Hunt down every hostile tank.`);
+  setEventLog(game.bossWave ? "Boss 波次来袭，准备迎战重装围攻坦克。" : `第 ${wave} 波开始，清空所有敌军坦克。`);
   updateHud();
 }
 
@@ -295,7 +299,7 @@ function updateHud() {
   hud.enemies.textContent = String(pendingEnemies);
   hud.wave.textContent = String(game.wave);
   hud.armor.textContent = String(Math.max(0, Math.round(game.player ? game.player.armor : 0)));
-  hud.weapon.textContent = game.player ? playerWeaponLabel() : "Offline";
+  hud.weapon.textContent = game.player ? playerWeaponLabel() : "离线";
 }
 
 function collidesWithMap(rect) {
@@ -415,20 +419,20 @@ function killEnemy(enemy) {
   makeExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, enemy.isBoss ? "#ff9d57" : "#ff7a59", enemy.isBoss ? 24 : 12, enemy.isBoss ? 180 : 120);
   maybeSpawnPickup(enemy);
   if (enemy.isBoss) {
-    setEventLog("Boss destroyed. The battlefield is yours.");
+    setEventLog("Boss 已被摧毁，战场暂时由你掌控。");
   }
 }
 
 function inflictPlayerDamage(amount) {
   if (game.player.shieldTimer > 0) {
     game.player.shieldTimer = Math.max(0, game.player.shieldTimer - 1.1);
-    setEventLog("Shield absorbed the impact.");
+    setEventLog("护盾吸收了这次冲击。");
     return;
   }
 
   game.player.armor -= amount;
   if (game.player.armor > 0) {
-    setEventLog("Armor hit. Stay mobile.");
+    setEventLog("装甲受损，继续机动。");
     return;
   }
 
@@ -437,14 +441,14 @@ function inflictPlayerDamage(amount) {
   if (game.lives <= 0) {
     game.player.alive = false;
     game.state = "gameover";
-    game.message = "Your squad ran out of tanks.";
-    setEventLog("Mission failed. Press R to launch a new run.");
+    game.message = "你的坦克储备已经耗尽。";
+    setEventLog("任务失败，按 R 重新发起挑战。");
     return;
   }
 
   game.player = buildPlayer();
   game.player.lastShot = -PLAYER_FIRE_DELAY;
-  setEventLog(`Tank lost. ${game.lives} lives remaining.`);
+  setEventLog(`一辆坦克被击毁，剩余生命 ${game.lives}。`);
 }
 
 function spawnEnemy() {
@@ -487,7 +491,7 @@ function spawnEnemy() {
   game.enemyBudget -= 1;
 
   if (enemy.isBoss) {
-    setEventLog("Boss tank deployed. Aim for sustained damage.");
+    setEventLog("Boss 坦克已部署，保持持续火力输出。");
   }
 }
 
@@ -585,13 +589,13 @@ function updatePickups(delta) {
       pickup.dead = true;
       if (pickup.type === "shield") {
         game.player.shieldTimer = 9;
-        setEventLog("Shield online. Push forward.");
+        setEventLog("护盾已激活，可以更大胆推进。");
       } else if (pickup.type === "rapid") {
         game.player.rapidTimer = 9;
-        setEventLog("Rapid fire loaded.");
+        setEventLog("高速连发已装填。");
       } else if (pickup.type === "repair") {
         game.player.armor = Math.min(100, game.player.armor + 40);
-        setEventLog("Armor repaired.");
+        setEventLog("装甲修复完成。");
       }
       makeExplosion(pickup.x + pickup.width / 2, pickup.y + pickup.height / 2, pickupColors[pickup.type], 10, 90);
     }
@@ -683,8 +687,8 @@ function updateBullets(delta) {
       bullet.alive = false;
       game.base.alive = false;
       game.state = "gameover";
-      game.message = "The base was destroyed.";
-      setEventLog("The base is gone. Press R to regroup.");
+      game.message = "基地已被摧毁。";
+      setEventLog("基地失守，按 R 重新集结。");
       makeExplosion(game.base.x + game.base.width / 2, game.base.y + game.base.height / 2, "#ff6b57", 22, 180);
     }
   }
@@ -696,8 +700,8 @@ function finishWave() {
   game.state = "waveclear";
   const bonus = 250 + game.wave * 50 + Math.round(game.player.armor);
   game.score += bonus;
-  game.message = `Wave ${game.wave} secured. Bonus +${bonus}.`;
-  setEventLog("Sector clear. Press Enter to deploy into the next wave.");
+  game.message = `第 ${game.wave} 波已肃清，奖励 +${bonus}。`;
+  setEventLog("区域清空，按 Enter 进入下一波。");
 }
 
 function update(delta, now) {
@@ -862,9 +866,9 @@ function drawTopBanner() {
   ctx.fillStyle = "#f6f4ee";
   ctx.font = '700 14px Consolas, "Liberation Mono", monospace';
   ctx.textAlign = "left";
-  ctx.fillText(`WAVE ${game.wave}`, 26, 31);
+  ctx.fillText(`第 ${game.wave} 波`, 26, 31);
   ctx.fillStyle = game.bossWave ? "#ffb05a" : "#6bf0b6";
-  ctx.fillText(game.bossWave ? "BOSS SECTOR" : "STANDARD ASSAULT", 104, 31);
+  ctx.fillText(game.bossWave ? "BOSS 区域" : "标准突击", 104, 31);
 }
 
 function drawOverlay() {
@@ -880,30 +884,30 @@ function drawOverlay() {
   ctx.font = '900 42px Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif';
 
   if (game.state === "menu") {
-    ctx.fillText("STEEL ASSAULT", canvas.width / 2, canvas.height / 2 - 66);
+    ctx.fillText("钢铁突击", canvas.width / 2, canvas.height / 2 - 66);
     ctx.font = '500 21px "Microsoft YaHei UI", "Segoe UI", sans-serif';
     ctx.fillStyle = "#d3d7d5";
-    ctx.fillText("Defend the base, collect supply crates, and crush the boss waves.", canvas.width / 2, canvas.height / 2 - 22);
-    ctx.fillText("Press Enter or click Start Mission to deploy.", canvas.width / 2, canvas.height / 2 + 16);
+    ctx.fillText("守住基地，争夺补给，击溃每隔三波出现的 Boss。", canvas.width / 2, canvas.height / 2 - 22);
+    ctx.fillText("按 Enter 或点击“开始任务”立即出击。", canvas.width / 2, canvas.height / 2 + 16);
     ctx.fillStyle = "#f5b93a";
-    ctx.fillText("Controls: Move with WASD or arrows, fire with Space.", canvas.width / 2, canvas.height / 2 + 58);
+    ctx.fillText("操作：WASD / 方向键移动，空格开火。", canvas.width / 2, canvas.height / 2 + 58);
     return;
   }
 
   if (game.state === "paused") {
-    ctx.fillText("PAUSED", canvas.width / 2, canvas.height / 2 - 14);
+    ctx.fillText("已暂停", canvas.width / 2, canvas.height / 2 - 14);
     ctx.font = '500 21px "Microsoft YaHei UI", "Segoe UI", sans-serif';
     ctx.fillStyle = "#d3d7d5";
-    ctx.fillText("Press P to return to the frontline.", canvas.width / 2, canvas.height / 2 + 28);
+    ctx.fillText("按 P 返回前线。", canvas.width / 2, canvas.height / 2 + 28);
     return;
   }
 
-  ctx.fillText(game.state === "waveclear" ? "SECTOR SECURED" : "MISSION FAILED", canvas.width / 2, canvas.height / 2 - 30);
+  ctx.fillText(game.state === "waveclear" ? "区域肃清" : "任务失败", canvas.width / 2, canvas.height / 2 - 30);
   ctx.font = '500 21px "Microsoft YaHei UI", "Segoe UI", sans-serif';
   ctx.fillStyle = "#d3d7d5";
   ctx.fillText(game.message, canvas.width / 2, canvas.height / 2 + 8);
   ctx.fillStyle = "#f5b93a";
-  ctx.fillText(game.state === "waveclear" ? "Press Enter for the next wave." : "Press R to start a fresh run.", canvas.width / 2, canvas.height / 2 + 46);
+  ctx.fillText(game.state === "waveclear" ? "按 Enter 进入下一波。" : "按 R 开始新的挑战。", canvas.width / 2, canvas.height / 2 + 46);
 }
 
 function draw() {
@@ -923,10 +927,10 @@ function draw() {
 function togglePause() {
   if (game.state === "playing") {
     game.state = "paused";
-    setEventLog("Simulation paused.");
+    setEventLog("战斗模拟已暂停。");
   } else if (game.state === "paused") {
     game.state = "playing";
-    setEventLog("Back in action.");
+    setEventLog("重新投入战斗。");
   }
 }
 

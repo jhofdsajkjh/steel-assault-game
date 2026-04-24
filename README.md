@@ -1,35 +1,35 @@
 # Steel Assault
 
-A browser tank battle game built with plain HTML5 Canvas and tuned for instant play on desktop or mobile browsers.
+一个使用原生 HTML5 Canvas 开发的浏览器坦克大战游戏，桌面和移动浏览器都能直接打开游玩。
 
-## Play online
+## 在线游玩
 
-After GitHub Pages finishes deploying, the live build will be available at:
+GitHub Pages 在线地址：
 
 `https://jhofdsajkjh.github.io/steel-assault-game/`
 
-## Features
+## 功能特色
 
-- Campaign-style wave progression with boss encounters every third wave
-- Supply drops that grant shield, repair, or rapid-fire bonuses
-- Start screen, pause state, wave clear screen, and failure screen
-- Responsive control panel and mission feed around the main battlefield
-- No build tooling required, just static files
+- 波次推进玩法，每第 3 波会出现 Boss
+- 补给掉落包含护盾、修复和高速连发
+- 包含开始页、暂停态、过关页和失败结算页
+- 主战场外配有响应式控制面板和战场播报
+- 无需构建工具，纯静态文件即可运行
 
-## Controls
+## 操作方式
 
-- `WASD` or arrow keys to move
-- `Space` to fire
-- `Enter` to start the mission or advance after a cleared wave
-- `P` to pause or resume
-- `R` to reset the full run
+- `WASD` 或方向键移动
+- `Space` 开火
+- `Enter` 开始任务，或在过关后进入下一波
+- `P` 暂停 / 继续
+- `R` 重新开始整局挑战
 
-## Run locally
+## 本地运行
 
-Open `index.html` directly, or serve the project as static files:
+可以直接打开 `index.html`，或者在项目目录启动一个静态服务器：
 
 ```powershell
 npx serve .
 ```
 
-Then open the printed local URL in your browser.
+然后在浏览器中访问输出的本地地址。
