@@ -1,0 +1,186 @@
+:root {
+  --bg-top: #09111f;
+  --bg-bottom: #1e2f2c;
+  --panel: rgba(8, 15, 25, 0.82);
+  --panel-border: rgba(255, 255, 255, 0.12);
+  --accent: #f7b733;
+  --accent-soft: rgba(247, 183, 51, 0.24);
+  --text: #f2f3ef;
+  --muted: #a5b0af;
+  --danger: #ff6b57;
+  --success: #6bf0b6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(247, 183, 51, 0.14), transparent 28%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto;
+  width: 32vmax;
+  height: 32vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+body::before {
+  top: -8rem;
+  right: -4rem;
+  background: #f25f5c;
+}
+
+body::after {
+  bottom: -10rem;
+  left: -6rem;
+  background: #247ba0;
+}
+
+.shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 36px;
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.hud-card,
+.playfield-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.32);
+}
+
+.hud-card {
+  padding: 26px;
+}
+
+.eyebrow,
+h1 {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 0.95;
+}
+
+.lead {
+  margin: 16px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.controls {
+  margin-top: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.controls span {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.controls strong {
+  color: var(--accent);
+  margin-right: 10px;
+}
+
+.playfield-card {
+  padding: 18px;
+}
+
+canvas {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  border-radius: 18px;
+  background: #11181f;
+}
+
+.status-bar {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.status-bar > div {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.status-bar strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.3rem;
+  font-family: Consolas, "Liberation Mono", monospace;
+}
+
+@media (max-width: 980px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .shell {
+    width: min(100% - 18px, 1180px);
+    padding-top: 16px;
+  }
+
+  .hud-card,
+  .playfield-card {
+    border-radius: 20px;
+  }
+
+  .hud-card {
+    padding: 20px;
+  }
+
+  .playfield-card {
+    padding: 12px;
+  }
+
+  .status-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

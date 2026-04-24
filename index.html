@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steel Assault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hud-card intro">
+      <p class="eyebrow">Canvas Arcade</p>
+      <h1>Steel Assault</h1>
+      <p class="lead">
+        Drive your tank, protect the base, and survive wave after wave of hostile armor.
+      </p>
+      <div class="controls">
+        <span><strong>Move</strong> WASD / Arrows</span>
+        <span><strong>Fire</strong> Space</span>
+        <span><strong>Restart</strong> R</span>
+      </div>
+    </section>
+
+    <section class="playfield-card">
+      <canvas id="game" width="832" height="576" aria-label="Tank battle game canvas"></canvas>
+      <div class="status-bar">
+        <div>
+          <span class="label">Lives</span>
+          <strong id="lives">3</strong>
+        </div>
+        <div>
+          <span class="label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div>
+          <span class="label">Enemies</span>
+          <strong id="enemies">0</strong>
+        </div>
+        <div>
+          <span class="label">Wave</span>
+          <strong id="wave">1</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
